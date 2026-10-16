@@ -110,7 +110,7 @@ def auto_stretches(flow: list[dict], tx: dict, end_t: float, min_swing: int = 8)
 def parse_stretches(spec: str) -> list[tuple[str, float, float]]:
     """--stretches "Label:t0-t1,..." (our-video seconds) or a JSON file [[label, t0, t1], ...]."""
     if spec.endswith(".json") and Path(spec).exists():
-        return [(str(l), float(a), float(b)) for l, a, b in json.loads(Path(spec).read_text(encoding="utf8"))]
+        return [(str(label), float(a), float(b)) for label, a, b in json.loads(Path(spec).read_text(encoding="utf8"))]
     out = []
     for s in filter(None, (x.strip() for x in spec.split(","))):
         label, rng = s.rsplit(":", 1)

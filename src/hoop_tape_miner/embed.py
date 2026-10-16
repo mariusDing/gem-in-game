@@ -81,13 +81,16 @@ def main(argv=None):
                 buf.append(c)
                 buf_idx.append(idx)
         if len(buf) >= args.batch:
-            out_emb.append(emb(buf)); out_idx += buf_idx; buf, buf_idx = [], []
+            out_emb.append(emb(buf))
+            out_idx += buf_idx
+            buf, buf_idx = [], []
         fi += 1
         k += 1
         if k % 2000 == 0:
             print(f"{fi}/{last}", flush=True)
     if buf:
-        out_emb.append(emb(buf)); out_idx += buf_idx
+        out_emb.append(emb(buf))
+        out_idx += buf_idx
     idx = np.concatenate([prev_idx, np.array(out_idx)])
     emb = np.concatenate(([prev_emb] if prev_emb is not None else []) + out_emb).astype(np.float16)
     np.savez(run / "embeddings.npz", idx=idx, emb=emb)

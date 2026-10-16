@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import time
 from pathlib import Path
 
@@ -41,7 +40,8 @@ def main(argv=None):
     t0 = time.time()
     while fi <= last:
         if fi not in want:
-            cap.grab(); fi += 1
+            cap.grab()
+            fi += 1
             continue
         ok, bgr = cap.read()
         if not ok:
@@ -51,7 +51,7 @@ def main(argv=None):
         H_all[i] = H if H is not None else np.nan
         q_all[i], how_all[i] = q, how
         if i % 1000 == 0:
-            print(f"{i}/{len(want)} {(time.time() - t0) / 60:.1f} min, refined so far {(q_all[:i + 1] < 3).mean():.3f}, bank {len(bank.frames)}", flush=True)
+            print(f"{i}/{len(want)} {(time.time() - t0) / 60:.1f} min, refined so far {(q_all[:i + 1] < 3).mean():.3f}, bank {len(trk.bank.frames)}", flush=True)
         fi += 1
     if args.dry:
         q = q_all[sel]

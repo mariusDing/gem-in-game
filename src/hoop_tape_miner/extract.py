@@ -5,7 +5,6 @@ Writes one parquet of detections and one npz of homographies. Resumable in chunk
 from __future__ import annotations
 
 import argparse
-import json
 import time
 from pathlib import Path
 
@@ -15,7 +14,7 @@ import pandas as pd
 import torch
 
 from .camera import CourtCameraTracker
-from .court import LENGTH, WIDTH, project
+from .court import project
 from .device import device, half_dtype
 
 PERSON_COCO_ID = 1
@@ -53,10 +52,10 @@ class BallDetector:
         out = self.model(**inp)
         r = self.proc.post_process_object_detection(out, threshold=thr, target_sizes=[rgb.shape[:2]])[0]
         res = []
-        for s, l, b in zip(r["scores"], r["labels"], r["boxes"]):
-            b = b.float().tolist()
-            if l.item() == BALL_HF_LABEL and (b[2] - b[0]) < 40 and (b[3] - b[1]) < 40:
-                res.append((*b, s.item()))
+        for score, label, box in zip(r["scores"], r["labels"], r["boxes"]):
+            box = box.float().tolist()
+            if label.item() == BALL_HF_LABEL and (box[2] - box[0]) < 40 and (box[3] - box[1]) < 40:
+                res.append((*box, score.item()))
         return res
 
 
