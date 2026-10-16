@@ -9,7 +9,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from .court import LENGTH, WIDTH, hoop_xy
+from .court import LENGTH, hoop_xy
 
 
 def frame_table(tracks: pd.DataFrame) -> pd.DataFrame:

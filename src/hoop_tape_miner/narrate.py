@@ -31,7 +31,7 @@ MP3 = ["-ac", "1", "-ar", "24000", "-c:a", "libmp3lame", "-b:a", "48k"]
 
 
 def paragraphs(text: str) -> list[str]:
-    lines = [l for l in text.splitlines() if not l.lstrip().startswith("#")]
+    lines = [line for line in text.splitlines() if not line.lstrip().startswith("#")]
     return [" ".join(p.split()) for p in "\n".join(lines).split("\n\n") if p.strip()]
 
 

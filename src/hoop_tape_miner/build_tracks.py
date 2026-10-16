@@ -20,13 +20,13 @@ def team_map(labels, us: str | None) -> dict[str, str]:
     cluster_names.json may use team labels directly ("us", "them", "ref", "unk"), or jersey colour words
     (e.g. "navy", "teal"): then `us` names our colour and the single other non-ref label is them.
     """
-    teams = sorted({l for l in labels if l not in SPECIAL})
+    teams = sorted({label for label in labels if label not in SPECIAL})
     if set(teams) <= {"us", "them"}:
         return {"us": "us", "them": "them", "ref": "ref"}
     if us is None:
         raise SystemExit(f"cluster labels {teams} are colours: pass --us <colour> or --game with us.colour, "
                          'or label the clusters "us" / "them" in cluster_names.json')
-    others = [l for l in teams if l != us]
+    others = [label for label in teams if label != us]
     if us not in teams or len(others) != 1:
         raise SystemExit(f"--us {us!r} must be one of exactly two team labels in cluster_names.json, got {teams}")
     return {us: "us", others[0]: "them", "ref": "ref"}
@@ -77,7 +77,7 @@ def classify_colours(p: pd.DataFrame, run: Path, video: str, seed=0) -> pd.DataF
                          '{"0": "us", "1": "them", "2": "ref", "3": "unk", ...} (jersey colour words such as '
                          '"navy" / "teal" work too, with --us <colour>), then re-run.')
     names = {int(c): n for c, n in json.loads(lab_file.read_text()).items()}
-    y = np.array([names[l] for l in km.labels_])
+    y = np.array([names[label] for label in km.labels_])
     conf = y != "unk"
     clf = LogisticRegression(max_iter=2000, C=1.0).fit(X[conf], y[conf])
     prob = clf.predict_proba(X)
@@ -107,7 +107,7 @@ def main(argv=None):
     teams = team_map(set(p.colour), us)
 
     p["track"] = -1
-    order = sorted(l for l in teams if l != "ref") + ["ref"]  # navy < teal: track ids as before
+    order = sorted(label for label in teams if label != "ref") + ["ref"]  # navy < teal: track ids as before
     for i, col in enumerate(order):
         off = i * 100000
         m = p.colour == col

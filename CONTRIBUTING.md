@@ -21,6 +21,7 @@ You need [uv](https://docs.astral.sh/uv/), Python 3.11 and `ffmpeg`. The full pi
 git clone https://github.com/<you>/hoop-tape-miner.git
 cd hoop-tape-miner
 uv sync
+uv run ruff check .
 uv run pytest -q
 ```
 
@@ -44,7 +45,7 @@ uv run --no-sync pytest -q
 
 1. Fork, then branch from `master` (`fix/jersey-crop`, `feat/league-importer-x`).
 2. Keep a PR to one change. Add or update tests for behaviour changes.
-3. Run `uv run pytest -q` before you push. CI runs the same tests.
+3. Run `uv run ruff check .` and `uv run pytest -q` before you push. CI runs both checks.
 4. Update the docs and `CHANGELOG.md` (under *Unreleased*) when users would notice the change.
 5. Check `git status`: nothing from `workspace/`, no videos, frames or audio.
 

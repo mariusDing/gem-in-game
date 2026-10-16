@@ -80,8 +80,8 @@ def bar_compare(ax, labels, us_vals, them_vals, fmt="{:.1f}", title=""):
     """Grouped horizontal bars, us vs them, direct-labelled."""
     y = np.arange(len(labels))
     h = 0.36
-    for off, vals, team in ((-h / 2 - 0.02, us_vals, "us"), (h / 2 + 0.02, them_vals, "them")):
-        ax.barh(y + off, vals, height=h, color=TEAM[team], label=TEAM_NAME[team])
+    for off, vals, side in ((-h / 2 - 0.02, us_vals, "us"), (h / 2 + 0.02, them_vals, "them")):
+        ax.barh(y + off, vals, height=h, color=TEAM[side], label=TEAM_NAME[side])
         for yi, v in zip(y + off, vals):
             if np.isfinite(v):
                 ax.text(v, yi, " " + fmt.format(v), va="center", ha="left", color=INK2, fontsize=9)

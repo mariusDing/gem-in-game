@@ -9,11 +9,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .court import LENGTH, WIDTH
 from .events import event_summary, resolved_events, reviewed_events
-from .metrics import player_summary, zone_of
+from .metrics import player_summary
 from .game_config import load_game
-from .plots import INK2, MUTED, GRID, TEAM, TEAM_NAME, bar_compare, draw_court, heatmap, to_attack_right, use_game
+from .plots import INK2, GRID, TEAM, TEAM_NAME, bar_compare, heatmap, to_attack_right, use_game
 
 # Figure labels. "en" = English only; "zh" = the bilingual labels (English + Chinese) used so far.
 STR = {
@@ -40,7 +39,8 @@ def team_positions(tr, poss, team, role):
         g = fr.loc[fr.index.intersection(p.frames)]
         x, y = to_attack_right(g.cx_s.to_numpy(), g.cy_s.to_numpy(), p.side)
         # the *attacked* basket for the defence is the same basket
-        xs.append(x); ys.append(y)
+        xs.append(x)
+        ys.append(y)
     return (np.concatenate(xs), np.concatenate(ys)) if xs else (np.array([]), np.array([]))
 
 
@@ -102,7 +102,8 @@ def fig_player(tr, poss, track_ids, label, out):
         for _, p in sel.iterrows():
             g = tt.loc[tt.index.intersection(p.frames)]
             x, y = to_attack_right(g.cx_s.to_numpy(), g.cy_s.to_numpy(), p.side)
-            xs.append(x); ys.append(y)
+            xs.append(x)
+            ys.append(y)
         x = np.concatenate(xs) if xs else np.array([])
         y = np.concatenate(ys) if ys else np.array([])
         heatmap(ax, x, y, "us", f"{label} — {role_label(role)}")
