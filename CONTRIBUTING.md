@@ -22,14 +22,16 @@ git clone https://github.com/<you>/hoop-tape-miner.git
 cd hoop-tape-miner
 uv sync
 uv run pytest -q
+uv run ruff check .
 ```
 
 Without a CUDA GPU, install CPU torch instead of running `uv sync`, as CI does:
 
 ```bash
 uv venv --python 3.11
-uv pip install --no-sources --torch-backend cpu -e . pytest
+uv pip install --no-sources --torch-backend cpu -e . pytest ruff
 uv run --no-sync pytest -q
+uv run --no-sync ruff check .
 ```
 
 ## Project map
@@ -44,11 +46,11 @@ uv run --no-sync pytest -q
 
 1. Fork, then branch from `master` (`fix/jersey-crop`, `feat/league-importer-x`).
 2. Keep a PR to one change. Add or update tests for behaviour changes.
-3. Run `uv run pytest -q` before you push. CI runs the same tests.
+3. Run `uv run pytest -q` and `uv run ruff check .` before you push. CI runs the same checks.
 4. Update the docs and `CHANGELOG.md` (under *Unreleased*) when users would notice the change.
 5. Check `git status`: nothing from `workspace/`, no videos, frames or audio.
 
-Code style: follow the surrounding code. Small functions, plain names, short docstrings that say what a stage reads and writes.
+Code style: follow the surrounding code. Small functions, plain names, short docstrings that say what a stage reads and writes. Ruff is configured in `pyproject.toml` (line length 180).
 
 ## AI agents welcome
 

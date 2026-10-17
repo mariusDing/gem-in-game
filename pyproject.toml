@@ -70,4 +70,13 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
+    "ruff>=0.6.0",
 ]
+
+[tool.ruff]
+line-length = 180
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "C4", "UP", "RUF"]
+ignore = ["C408", "B023", "RUF059", "RUF046", "RUF100", "BLE001", "PERF102", "F402", "F821", "RUF007", "RUF001", "B905", "E741", "E702", "C416", "RUF005", "E731", "B904", "B007"]
